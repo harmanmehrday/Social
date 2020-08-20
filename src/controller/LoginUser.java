@@ -59,7 +59,7 @@ public class LoginUser extends HttpServlet {
 		if(returnedUser!=null) {
 			if(logpassword.contentEquals(returnedUser.getPassword())) {
 				session.setAttribute("user", returnedUser);
-				response.sendRedirect("loginSuccess.jsp");
+				response.sendRedirect("DisplayPost");
 			}	
 			else {
 				String result = "Invalid Username or Password!!";

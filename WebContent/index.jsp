@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Social Spark</title>
 </head>
 <body>
 	<div style="float:left; margin-left:300px;">
@@ -36,6 +36,3 @@
 	<input type="text" id="result" name="result" value="${result}" style="width:500px; font-size:30px;margin-top:140px;margin-left:-30px;"/><br>
 </body>
 </html>
-
-
-

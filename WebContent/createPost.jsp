@@ -17,8 +17,11 @@
 			<% 
 		}
 	%>
-	<h1>${user.getFname()} ${user.getLname()}</h1><h3><a href="logout">LOG OUT</a></h3>
-	<a href="DisplayPost">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="userPost">My Posts</a>
+	<h1>${user.getFname()} ${user.getLname()}</h1><h3><a href="logout?for=1">LOG OUT</a></h3>
+	
+	<a href="DisplayPost">Home</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;<a href="userPost">My Posts</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;<a href="profile">My Profile</a>
 	
 	<form action="CreatePost" method="post" name="createpost">
 		<h1>Create Post</h1>

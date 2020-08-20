@@ -7,6 +7,7 @@
 <title>Social Spark</title>
 </head>
 <body>
+	
 	<div style="float:left; margin-left:300px;">
 		<form action="CreateUser" method="post">
 			<h1>Sign Up</h1>

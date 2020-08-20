@@ -1,10 +1,8 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +12,13 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import db.PostDBUtil;
-import model.Post;
 import model.User;
 
-@WebServlet("/userPost")
-public class userPost extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public userPost() {
+@WebServlet("/savePost")
+public class savePost extends HttpServlet {
+	private static final long serialVersionUID = 1L;   
+    public savePost() {
         super();
-        // TODO Auto-generated constructor stub
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
@@ -33,14 +28,12 @@ public class userPost extends HttpServlet {
     private DataSource datasource;
     private PostDBUtil postdb;
 
-    
     @Override
 	public void init() throws ServletException {
-		super.init();
+    	super.init();
 		
-		try {
+		try {			
 			postdb = new PostDBUtil(datasource);
-		
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
@@ -48,15 +41,8 @@ public class userPost extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		
-		ArrayList<Post> list = postdb.displayUserPost(user.getEmail());
-		ArrayList<Post> savelist = postdb.displaySavePost(user.getEmail());
-		request.setAttribute("list",list);
-		request.setAttribute("savelist", savelist);
-		
-		String strViewPage="/myPosts.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
-		dispatcher.forward(request, response);
+		Integer id = Integer.parseInt(request.getParameter("index"));
+    	postdb.savePost(id,user);
+    	response.sendRedirect("userPost");
 	}
-
 }

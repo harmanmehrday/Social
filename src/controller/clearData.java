@@ -1,10 +1,8 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,32 +12,31 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import db.PostDBUtil;
-import model.Post;
+import db.UserDBUtil;
 import model.User;
 
-@WebServlet("/userPost")
-public class userPost extends HttpServlet {
+@WebServlet("/clearData")
+public class clearData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public userPost() {
+    public clearData() {
         super();
-        // TODO Auto-generated constructor stub
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-    
     @Resource(name="jdbc/social")
     private DataSource datasource;
-    private PostDBUtil postdb;
+    private UserDBUtil userdb;
 
-    
     @Override
 	public void init() throws ServletException {
-		super.init();
+		// TODO Auto-generated method stub
+    	super.init();
 		
 		try {
-			postdb = new PostDBUtil(datasource);
+			
+			userdb = new UserDBUtil(datasource);
 		
 		} catch (Exception e) {
 			throw new ServletException(e);
@@ -48,15 +45,10 @@ public class userPost extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
-		
-		ArrayList<Post> list = postdb.displayUserPost(user.getEmail());
-		ArrayList<Post> savelist = postdb.displaySavePost(user.getEmail());
-		request.setAttribute("list",list);
-		request.setAttribute("savelist", savelist);
-		
-		String strViewPage="/myPosts.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
-		dispatcher.forward(request, response);
+		user.clearUserData(userdb);
+		response.sendRedirect("profile");
 	}
+
+	
 
 }

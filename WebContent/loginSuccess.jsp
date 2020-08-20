@@ -47,6 +47,7 @@ td{
 	
 	<a href="createPost.jsp">Create Post</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="userPost">My Posts</a>	
+	&nbsp;&nbsp;&nbsp;&nbsp;<a href="profile">My Profile</a>
 	<h2><%= postStatus %></h2>
 	
 	<br/><br/>
@@ -70,7 +71,7 @@ td{
 					<a href="likePost?page=2&index=${item.getId()}">Like</a>
 				</td>
 				<td>	
-				 	<a href="savePost?page=2&index=${item.getId()}"> Save</a>
+				 	<a href="savePost?index=${item.getId()}"> Save</a>
 				</td>	 
 			</tr>
 			</tag:forEach>

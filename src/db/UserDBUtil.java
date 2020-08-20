@@ -82,7 +82,53 @@ public class UserDBUtil {
 		return null;
 	}
 	
-	
+	public User clearUser(String email) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet res = null;
+		
+		try {
+			
+			conn =  this.datasource.getConnection();
+			
+			String sql = String.format("Delete from post where email = ?");
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,email);
+			pstmt.executeUpdate();	
+			String sql2 = String.format("Delete from savepost where email = ?");
+			pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.setString(1,email);	
+			pstmt2.executeUpdate();	
+			
+		} finally {
+			close(conn,stmt,pstmt,res);
+		}
+		return null;
+	}
+	public User deleteUser(String email) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		
+		try {
+			
+			conn =  this.datasource.getConnection();
+			
+			String sql = String.format("Delete from user where email = ?");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,email);
+			
+			pstmt.executeUpdate();					
+		} finally {
+			close(conn,stmt,pstmt,res);
+		}
+		return null;
+	}
 	private void close(Connection conn, Statement stmt, PreparedStatement pstmt, ResultSet res) {
 		
 		try {

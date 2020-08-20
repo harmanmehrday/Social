@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
@@ -14,14 +13,12 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import db.PostDBUtil;
-import model.Post;
 import model.User;
 
-@WebServlet("/userPost")
-public class userPost extends HttpServlet {
+@WebServlet("/profile")
+public class profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public userPost() {
+    public profile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,30 +30,35 @@ public class userPost extends HttpServlet {
     private DataSource datasource;
     private PostDBUtil postdb;
 
-    
     @Override
 	public void init() throws ServletException {
-		super.init();
+		// TODO Auto-generated method stub
+    	super.init();
 		
 		try {
+			
 			postdb = new PostDBUtil(datasource);
 		
 		} catch (Exception e) {
+			// TODO: handle exception
 			throw new ServletException(e);
 		}
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		
-		ArrayList<Post> list = postdb.displayUserPost(user.getEmail());
-		ArrayList<Post> savelist = postdb.displaySavePost(user.getEmail());
-		request.setAttribute("list",list);
-		request.setAttribute("savelist", savelist);
-		
-		String strViewPage="/myPosts.jsp";
+    	User user = (User) session.getAttribute("user");
+		int postNo,saveNo,likes;
+    	postNo = postdb.getTotalPosts(user.getEmail());
+    	saveNo = postdb.getTotalSavedPosts(user.getEmail());
+    	likes = postdb.getTotalLikes(user.getEmail());
+    	request.setAttribute("posts", postNo);
+    	request.setAttribute("savedposts", saveNo);
+    	request.setAttribute("likes", likes);
+    	String strViewPage="/profile.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(strViewPage);
 		dispatcher.forward(request, response);
 	}
+
+	
 
 }

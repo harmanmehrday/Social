@@ -20,7 +20,7 @@ td{
 </head>
 <body>
 	<%
-		String status = "",postStatus="";
+		String status = "",postStatus="",savePostStatus="";
 		User user = (User) session.getAttribute("user");
 		if(user == null){
 			%>
@@ -36,17 +36,28 @@ td{
 						postStatus = "No Posts at this time.";
 				}
 				else{
-						postStatus = "Home Feed";
-				}
+						postStatus = "My Posts";
+				}	
 				status = "YOU ARE LOGGED IN"; 
+				
+			ArrayList<Post> savelist = null;
+			savelist =  (ArrayList<Post>) request.getAttribute("savelist");
+			if(savelist == null || savelist.isEmpty()){
+				savePostStatus = "No Saved Posts at this time.";
+			}
+			else{
+					savePostStatus = "My Saved Posts";
+			}	
 		}
 %>
 	<h1><%= status %></h1>
 	<h1>${user.getFname()} ${user.getLname()}</h1>
 	
-	<h3><a href="logout">LOG OUT</a></h3>
+	<h3><a href="logout?for=1">LOG OUT</a></h3>
 	
-	<a href="createPost.jsp">Create Post</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="DisplayPost">Home</a>
+	<a href="createPost.jsp">Create Post</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="DisplayPost">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="profile">My Profile</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	<h2><%= postStatus %></h2>
 	
 	<br/><br/>
@@ -76,7 +87,30 @@ td{
 			</tag:forEach>
 		</table>				
 	</tag:if>
-	
-	
+	<br/><br/>
+	<h2><%= savePostStatus %></h2>
+	<tag:if test="${savelist != null}">
+		<table>
+			<tag:forEach var="saveitem" items="${savelist}" varStatus="loop">
+			<tr>
+				<td>
+					${saveitem.getName()}
+				</td>	
+				<td>
+				 	${saveitem.getPostContent()}
+				</td>
+				<td>	
+				 	${saveitem.getLikes()}&nbsp;&nbsp;&nbsp;&nbsp; Likes
+				</td>
+				<td>
+					<a href="likePost?page=1&index=${saveitem.getId()}">Like</a>
+				</td>
+				<td>	
+				 	<a href="removeSavePost?page=1&index=${saveitem.getId()}"> Remove</a>
+				</td>
+			</tr>
+			</tag:forEach>
+		</table>				
+	</tag:if>
 </body>
 </html>

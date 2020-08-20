@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.sql.DataSource;
 
 import model.Post;
+import model.User;
 
 public class PostDBUtil {
 	private DataSource datasource;
@@ -88,6 +89,93 @@ public class PostDBUtil {
 		}
 		return returnedlist;
 	}
+	
+	public int getTotalPosts(String email){
+		
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		int totalposts=0;
+		try {
+			
+			conn =  this.datasource.getConnection();
+					
+			String sql = String.format("Select count(*) as totalposts from post where email = ?");
+			pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, email);
+	        result = pstmt.executeQuery();
+	        
+	        while(result.next()) {
+				totalposts = result.getInt("totalposts");
+	        }
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(conn,stmt,pstmt,result);
+		}
+		return totalposts;
+	}
+	public int getTotalSavedPosts(String email){
+		
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		int totalsavedposts=0;
+		try {
+			
+			conn =  this.datasource.getConnection();
+					
+			String sql = String.format("Select count(*) as totalsavedposts from savepost where email = ?");
+			pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, email);
+	        result = pstmt.executeQuery();
+	        
+	        while(result.next()) {
+				totalsavedposts = result.getInt("totalsavedposts");
+	        }
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(conn,stmt,pstmt,result);
+		}
+		return totalsavedposts;
+	}
+	public int getTotalLikes(String email){
+		
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		int totalLikes=0;
+		try {
+			
+			conn =  this.datasource.getConnection();
+					
+			String sql = String.format("Select count(*) as totalLikes from likes where email = ?");
+			pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, email);
+	        result = pstmt.executeQuery();
+	        
+	        while(result.next()) {
+				totalLikes = result.getInt("totalLikes");
+	        }
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(conn,stmt,pstmt,result);
+		}
+		return totalLikes;
+	}
+	
+	
 
 	public ArrayList<Post> displayUserPost(String email){
 		
@@ -129,6 +217,49 @@ public class PostDBUtil {
 		}
 		return returnedlist;
 	}
+
+	public ArrayList<Post> displaySavePost(String email){
+		
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		ArrayList<Post> saveReturnedlist = new ArrayList<>();
+		
+		
+		try {
+			
+			conn =  this.datasource.getConnection();
+			String sql = "SELECT p.*, u.fname, u.lname, count(l.postid) as likes "
+                    + "FROM post p "
+                    + "LEFT JOIN likes l ON p.postid = l.postid "
+                    + "JOIN user u ON p.email = u.email "
+                    + "JOIN savepost s ON p.postid = s.postid "
+                    + "WHERE s.email = ? "
+                    + "GROUP BY p.postid";
+			 
+			pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, email);
+	        result = pstmt.executeQuery();
+			while(result.next()) {
+					int id = result.getInt("postid");
+					String postContent = result.getString("content");
+					String retEmail = result.getString("email");
+					String likes = result.getString("likes").toString();
+					String date = result.getString("date");
+					String fname = result.getString("fname");
+					String lname = result.getString("lname");
+					saveReturnedlist.add(new Post(id, date, fname, lname, postContent,likes));
+			}
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(conn,stmt,pstmt,result);
+		}
+		return saveReturnedlist;
+	}	
 	
 	public boolean deletePost(int index){
 		boolean result;
@@ -142,6 +273,36 @@ public class PostDBUtil {
 			
 			
 			String sql = String.format("DELETE FROM post WHERE postid = ?");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1,index);
+			
+			pstmt.executeUpdate();
+			
+			result = true;
+		} 
+		catch(Exception e){
+			result = false;
+		}
+		finally {
+			close(conn,stmt,pstmt,res);
+		}
+		return result;
+	}
+	
+	public boolean removeSavePost(int index){
+		boolean result;
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		
+		try {
+			conn =  this.datasource.getConnection();
+			
+			
+			String sql = String.format("DELETE FROM savepost WHERE postid = ?");
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -267,6 +428,34 @@ public class PostDBUtil {
 		finally {
 			close(conn,stmt,pstmt,res);
 		}
+	}
+	
+	public boolean savePost(int index,User user){
+		boolean result;
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		
+		try {
+			conn =  this.datasource.getConnection();
+			
+			
+			String sql = String.format("Insert into savepost values('%s','%s')",user.getEmail(),index);
+			
+			stmt = conn.createStatement();
+			
+			stmt.executeUpdate(sql);
+			
+			result = true;
+		} 
+		catch(Exception e){
+			result = false;
+		}
+		finally {
+			close(conn,stmt,pstmt,res);
+		}
+		return result;
 	}
 	
 	private void close(Connection conn, Statement stmt, PreparedStatement pstmt, ResultSet res) {

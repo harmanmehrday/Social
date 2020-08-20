@@ -17,7 +17,7 @@
 			<% 
 		}
 	%>
-	<h1>${user.getFname()} ${user.getLname()}</h1><h3><a href="logout?for=1">LOG OUT</a></h3>
+	<h1>${user.getFname()} ${user.getLname()}</h1><h3><a href="logout">LOG OUT</a></h3>
 	
 	<a href="DisplayPost">Home</a>
 	&nbsp;&nbsp;&nbsp;&nbsp;<a href="userPost">My Posts</a>

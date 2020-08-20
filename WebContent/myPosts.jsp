@@ -53,7 +53,7 @@ td{
 	<h1><%= status %></h1>
 	<h1>${user.getFname()} ${user.getLname()}</h1>
 	
-	<h3><a href="logout?for=1">LOG OUT</a></h3>
+	<h3><a href="logout">LOG OUT</a></h3>
 	
 	<a href="createPost.jsp">Create Post</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="DisplayPost">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;

@@ -244,7 +244,6 @@ public class PostDBUtil {
 			while(result.next()) {
 					int id = result.getInt("postid");
 					String postContent = result.getString("content");
-					String retEmail = result.getString("email");
 					String likes = result.getString("likes").toString();
 					String date = result.getString("date");
 					String fname = result.getString("fname");

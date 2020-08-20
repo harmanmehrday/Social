@@ -3,11 +3,12 @@
 <%@ taglib prefix = "tag" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.*" %>    
 <%@ page import="java.util.ArrayList" %>  
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Profile</title>
+<title>Change Password</title>
 </head>
 <body>
 	<%
@@ -22,10 +23,7 @@
 			<% 
 		}
 		else{
-			posts = (int)request.getAttribute("posts");
-			savedPosts = (int)request.getAttribute("savedposts");
-			likes = (int)request.getAttribute("likes");
-			status = "Welcome to Social Spark"; 
+			status = "Change Password";
 		}
 %>
 	<h1><%= status %></h1>
@@ -40,14 +38,13 @@
 	<h1>${user.getFname()} ${user.getLname()}</h1>
 	<h1>${user.getEmail()}</h1>
 	
-	<h2>Total Posts : <%= posts %></h2>
-	<h2>Total Saved Posts : <%= savedPosts %></h2>
-	<h2>Total Likes Given : <%= likes %></h2>
-	
-	<a href="changePassword.jsp"><button>Change Password</button></a>
-	<br/><br/>
-	<a href="clearData"><button>Clear User Data</button></a>
-	<br/><br/>
-	<a href="deleteUser"><button>Delete Profile</button></a>
+	<form action="changePassword" method="post">
+  		<label for="oldPwd">Old Password :</label>
+  		<input type="text" id="oldPwd" name="oldPwd" required><br><br>
+  		<label for="newPwd">New Password : </label>
+  		<input type="text" id="newPwd" name="newPwd" required><br><br>
+  		<input type="submit" value="Submit">
+	</form>
+	<input type="text" id="result" name="result" value="${result}" style="width:500px; font-size:30px;margin-top:40px;margin-left:30px;"/><br>
 </body>
 </html>

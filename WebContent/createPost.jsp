@@ -26,7 +26,7 @@
 	<form action="CreatePost" method="post" name="createpost">
 		<h1>Create Post</h1>
 	  		<label for="posttext">Post :</label><br>
-	  		<textarea  id="posttext" name="posttext" form="createpost" rows="4" cols="50"></textarea><br><br>
+	  		<textarea  id="posttext" name="posttext" form="createpost" rows="4" cols="50" required></textarea><br><br>
 	  		<input type="submit" value="Submit">
 	  		<br>
 	</form>

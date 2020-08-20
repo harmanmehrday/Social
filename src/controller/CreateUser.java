@@ -59,7 +59,6 @@ public class CreateUser extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		User tempUser = new User(fname,lname,email,password);
-		
 		boolean created = tempUser.createUser(userdb);
 		
 		if(created) {
@@ -70,7 +69,7 @@ public class CreateUser extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		else {
-			String result = "SignUp Failed..";
+			String result = "Username Already Exists.";
 			request.setAttribute("result",result);
 			String strViewPage="/index.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(strViewPage);

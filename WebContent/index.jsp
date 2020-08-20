@@ -7,18 +7,17 @@
 <title>Social Spark</title>
 </head>
 <body>
-	
 	<div style="float:left; margin-left:300px;">
 		<form action="CreateUser" method="post">
 			<h1>Sign Up</h1>
 	  		<label for="fname">First Name :</label><br>
-	  		<input type="text" id="fname" name="fname"><br><br>
+	  		<input type="text" id="fname" name="fname" required><br><br>
 	  		<label for="lname">Last Name :</label><br>
-	  		<input type="text" id="lname" name="lname"><br><br>
+	  		<input type="text" id="lname" name="lname" required><br><br>
 	  		<label for="email">E-Mail :</label><br>
-	  		<input type="text" id="email" name="email"><br><br>
+	  		<input type="email" id="email" name="email" required><br><br>
 	  		<label for="password">Password :</label><br>
-	  		<input type="text" id="password" name="password"><br><br>
+	  		<input type="text" id="password" name="password" required><br><br>
 	  		<input type="submit" value="Submit">
 	  		<br>
 	  	</form>
@@ -27,9 +26,9 @@
 	  	<form action="LoginUser" method="post">
 			<h1>Login </h1>	
 	  		<label for="logemail">E-Mail :</label><br>
-	  		<input type="text" id="logemail" name="logemail"><br><br>
+	  		<input type="text" id="logemail" name="logemail" required><br><br>
 	  		<label for="logpassword">Password :</label><br>
-	  		<input type="text" id="logpassword" name="logpassword"><br><br>
+	  		<input type="text" id="logpassword" name="logpassword" required><br><br>
 	  		<input type="submit" value="Submit">
 	  		<br><br>
 		</form>

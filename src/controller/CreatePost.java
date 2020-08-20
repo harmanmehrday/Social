@@ -43,7 +43,7 @@ public class CreatePost extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-    	String postContent = request.getParameter("posttext");
+    	String postContent = (String)request.getParameter("posttext");
     	HttpSession session = request.getSession();
     	User user = (User) session.getAttribute("user");
 		

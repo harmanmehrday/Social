@@ -46,6 +46,7 @@ public class UserDBUtil {
 		}
 	}
 	
+	
 	public User loginUser(User user) throws Exception {
 		Connection conn = null;
 		Statement stmt = null;
@@ -107,6 +108,7 @@ public class UserDBUtil {
 		}
 		return null;
 	}
+	
 	public User deleteUser(String email) throws Exception {
 		Connection conn = null;
 		Statement stmt = null;
@@ -124,6 +126,30 @@ public class UserDBUtil {
 			pstmt.setString(1,email);
 			
 			pstmt.executeUpdate();					
+		} finally {
+			close(conn,stmt,pstmt,res);
+		}
+		return null;
+	}
+	
+	
+	public User changePassword(String pwd,String email) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		
+		try {
+			
+			conn =  this.datasource.getConnection();
+			
+			String sql = String.format("Update user set password = ? where email = ?");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,pwd);
+			pstmt.setString(2,email);
+			pstmt.executeUpdate();
+							
 		} finally {
 			close(conn,stmt,pstmt,res);
 		}

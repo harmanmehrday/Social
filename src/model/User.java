@@ -90,6 +90,14 @@ public class User {
 		}
 	}
 	
+	public void changePassword(UserDBUtil userdb,String newPwd) {
+		try {
+			userdb.changePassword(newPwd,this.email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean likePost(PostDBUtil postdb,int postid) {
 		postdb.likePost(postid, this.getEmail());
 		return false;
